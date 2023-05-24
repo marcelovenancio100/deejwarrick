@@ -3,14 +3,14 @@ function ValidaCPF(cpf) {
 
   Object.defineProperty(this, 'numeros', {
     enumerable: true,
-    get: function() {
-      return cpf ? cpf.replace(/\D+/g, '') : undefined;
-    }
+    writable: false,
+    configurable: false,
+    value: cpf && typeof cpf === 'string' ? cpf.replace(/\D+/g, '') : undefined
   });
 }
 
 ValidaCPF.prototype.isValido = function() {
-  if (typeof this.numeros === 'undefined') return false;
+  if (!this.numeros) return false;
   if (this.numeros.length !== 11) return false;
   if (this.isSequencia()) return false;
 
@@ -39,6 +39,7 @@ ValidaCPF.prototype.isSequencia = function() {
   const sequencia = this.numeros[0].repeat(this.numeros.length);
   return sequencia === this.numeros;
 }
+
 
 /*********************************************** */
 const validador = new ValidaCPF('111.111.111-11');
